@@ -19,13 +19,11 @@
 
 		public function save($model)
 		{	
-			$checkId = $model->getId();
+			$id = $model->getId();
 			$properties = $model->getProperties();
 			$properties['created_at'] = date('Y-m-d H:i:s');
-			$properties['updated_at'] = date('Y-m-d H:i:s');
-
-				
-			if ($checkId == null) {
+			$properties['updated_at'] = date('Y-m-d H:i:s');				
+			if ($id == null) {
 				unset($properties['id']);
 				$keys = implode(', ', array_keys($properties));
 				$value = implode(" ', ' ", array_values($properties));
@@ -40,9 +38,8 @@
 	        	}
 	          	$set = implode(',', $set);
 				$sql = "UPDATE {$this->table} SET $set WHERE id =:id";
-				//print_r($sql);
 				$req = Database::getBdd()->prepare($sql);
-				return $req->execute(['id'=>$checkId]);
+				return $req->execute(['id'=>$id]);
 			}
 			
 		}
@@ -53,7 +50,6 @@
 	        $sql = "SELECT * FROM {$this->table}";
 	        $req = Database::getBdd()->prepare($sql);
 	        $req->execute();
-
 	        return $req->fetchAll(PDO::FETCH_OBJ);
 	    }
 

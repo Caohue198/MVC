@@ -6,7 +6,6 @@
     
     class Dispatcher
     {
-
         private $request;
 
         public function dispatch()
