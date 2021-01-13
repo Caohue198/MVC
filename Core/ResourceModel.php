@@ -64,10 +64,10 @@
 
 		public function find($id)
 		{
-			$sql = 'SELECT * FROM {$this->table} WHERE id = :id';
+			$sql = "SELECT * FROM {$this->table} WHERE id = :id";
 			$req = Database::getBdd()->prepare($sql);
 			$req->execute(['id' => $id]);
-			return $req->fetch();
+			return $req->fetchObject();
 		}
 
 	}
