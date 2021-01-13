@@ -26,20 +26,24 @@
 			if ($id == null) {
 				unset($properties['id']);
 				$keys = implode(', ', array_keys($properties));
-				$value = implode(" ', ' ", array_values($properties));
-				$sql = "INSERT INTO {$this->table} ($keys) VALUES ('$value')";
+				$values = implode(', :',array_keys($properties));
+				$sql = "INSERT INTO {$this->table} ($keys) VALUES ( :$values)";
 				$req = Database::getBdd()->prepare($sql);
-				return $req->execute();
+				return $req->execute($properties);
 			} else {
 				unset($properties['created_at']);
 				$set = array();
-	       		foreach ($properties as $k => $v) {	
-	            	$set[] = $k ."= '".$v."'";
-	        	}
+	       		foreach (array_keys($properties) as $key => $values) {
+					if ($values != 'id') {
+						$set[] =  $values . ' = :' . $values;
+					}
+
+				}
+
 	          	$set = implode(',', $set);
-				$sql = "UPDATE {$this->table} SET $set WHERE id =:id";
+				$sql = "UPDATE {$this->table} SET $set WHERE id = :id";
 				$req = Database::getBdd()->prepare($sql);
-				return $req->execute(['id'=>$id]);
+				return $req->execute($properties);
 			}
 			
 		}
