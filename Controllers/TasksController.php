@@ -36,6 +36,7 @@
                 if ($this->taskRepository->add($task)) {
                     header("Location: " . WEBROOT . "tasks/index");
                 }
+
             }
 
             $this->render("create");
@@ -53,7 +54,9 @@
                 if ($this->taskRepository->edit($task)) {
                     header("Location: " . WEBROOT . "tasks/index");
                 }
+
             }
+
             $this->set($d);
             $this->render("edit");
         }
@@ -66,6 +69,7 @@
 
                 header("Location: " . WEBROOT . "tasks/index");
             }
+            
         }
 
     }
